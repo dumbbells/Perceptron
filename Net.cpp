@@ -2,6 +2,7 @@
 using namespace std;
 
 void Net::applySample(Sample sample){
+  accumulator = 0;
   for (int i = 0; i < numInputs; i++){
     input[i].currentValue = sample.field[i];
     accumulator += input[i].currentValue * input[i].weight;
@@ -12,11 +13,10 @@ void Net::applySample(Sample sample){
 //  cout << "accumulator is: " << accumulator << endl;
 }
 
-bool Net::outputMatch(Sample sample){
+int Net::outputMatch(Sample sample){
   if (accumulator > 0) output = 1;
   else output = -1;
-  if (output == sample.classification) return true;
-  else return false;
+  return output;
 }
 
 void Net::adjustWeight(Sample sample){
@@ -34,7 +34,7 @@ double Net::errorRate(){
   lit = samples.begin();
   while (lit != samples.end()){
     applySample(*lit);
-    if (!outputMatch(*lit)) tally++;
+    if (outputMatch(*lit) != lit->classification) tally++;
     lit++;
   }
   return tally / samples.size();
@@ -48,12 +48,11 @@ void Net::trainNet(int rounds){
       lit = samples.begin();
       advance(lit, rand() % samples.size());
       applySample(*lit);
-      if (!outputMatch(*lit)){
+      if (outputMatch(*lit) != lit->classification){
         cout << "no match...\n";
         adjustWeight(*lit);
       }
       else cout << "match!\n";
-      accumulator = 0;
       cout << endl;
     }
     if (errorRate() == 0) return;

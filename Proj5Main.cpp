@@ -40,6 +40,16 @@ int main(){
   net->trainNet(trainTime);
   cout << "error rate is " << net->errorRate() << endl;
 
+  while (true) {
+    cout << "Please enter binary sequence of " << complexity << " elements or enter '2' to quit.\n";
+    for (int i = 0; i < complexity; i++){
+      cin >> single->field[i];
+      if (single->field[i] > 1) goto end;
+    }
+    net->applySample(*single);
+    cout << "Classification is: " << net->outputMatch(*single) << endl;
+  }
+  end:
   delete net;
   return 0;
 }

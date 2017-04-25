@@ -4,6 +4,7 @@
 #include <list>
 #include <iostream>
 #include <math.h>
+#include <cstdlib>
 
 using namespace std;
 struct Sample{
@@ -25,11 +26,11 @@ class Net{
   double accumulator, swing;
 
   void initInput(int);
-  bool outputMatch(Sample);
-  void applySample(Sample);
   void adjustWeight(Sample);
 
 public:
+  int outputMatch(Sample);
+  void applySample(Sample);
   double errorRate();
   void trainNet(int);
   Net(list<Sample>, int);
