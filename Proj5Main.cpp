@@ -34,9 +34,11 @@ int main(){
   Net *net = new Net(samples, complexity);
 
   int trainTime;
+  cout << "Please enter the amount of training rounds: ";
   cin >> trainTime;
 
   net->trainNet(trainTime);
+  cout << "error rate is " << net->errorRate() << endl;
 
   delete net;
   return 0;

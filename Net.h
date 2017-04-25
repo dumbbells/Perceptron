@@ -22,7 +22,7 @@ class Net{
   inputNode* input;
   inputNode dummy;
   int numInputs, output;
-  double accumulator, swing, dummyWeight;
+  double accumulator, swing;
 
   void initInput(int);
   bool outputMatch(Sample);
@@ -30,6 +30,7 @@ class Net{
   void adjustWeight(Sample);
 
 public:
+  double errorRate();
   void trainNet(int);
   Net(list<Sample>, int);
 };

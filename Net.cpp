@@ -5,7 +5,11 @@ void Net::applySample(Sample sample){
   for (int i = 0; i < numInputs; i++){
     input[i].currentValue = sample.field[i];
     accumulator += input[i].currentValue * input[i].weight;
+    //cout << i << " is " << input[i].currentValue * input[i].weight << endl;
   }
+  accumulator += dummy.currentValue * dummy.weight;
+  //cout << "dummy is " << dummy.currentValue * dummy.weight << endl;
+//  cout << "accumulator is: " << accumulator << endl;
 }
 
 bool Net::outputMatch(Sample sample){
@@ -25,22 +29,34 @@ void Net::adjustWeight(Sample sample){
   cout << "dummy weight = " << dummy.weight << endl;
 }
 
+double Net::errorRate(){
+  double tally = 0;
+  lit = samples.begin();
+  while (lit != samples.end()){
+    applySample(*lit);
+    if (!outputMatch(*lit)) tally++;
+    lit++;
+  }
+  return tally / samples.size();
+}
+
 void Net::trainNet(int rounds){
   cout << "begin training session \n";
   for (int i = 0; i < rounds; i++){
     cout << "round " << i << endl;
-    lit = samples.begin();
-    while (lit != samples.end()){
+    for (int l = 0; l < samples.size(); l++){
+      lit = samples.begin();
+      advance(lit, rand() % samples.size());
       applySample(*lit);
       if (!outputMatch(*lit)){
         cout << "no match...\n";
         adjustWeight(*lit);
       }
       else cout << "match!\n";
-      lit++;
       accumulator = 0;
       cout << endl;
     }
+    if (errorRate() == 0) return;
   }
 }
 
@@ -50,7 +66,7 @@ void Net::initInput(int size){
     input[i].weight = 0;
   }
   dummy.weight = 0;
-  dummy.currentValue = -1;
+  dummy.currentValue = 1;
 }
 
 Net::Net(list<Sample> samples, int complexity){
@@ -58,6 +74,6 @@ Net::Net(list<Sample> samples, int complexity){
   this->samples = samples;
   initInput(samples.size());
   accumulator = 0;
-  swing = (double)1 / samples.size();
+  swing = (double).5 / samples.size();
   cout << "swing is " << swing << endl;
 }
