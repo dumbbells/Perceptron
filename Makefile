@@ -1,4 +1,4 @@
-OBJS = Net.o Proj4Main.o
+OBJS = Net.o Proj5Main.o
 CC = g++
 FLAGS = -Wall -g
 
@@ -11,7 +11,7 @@ Perceptron: $(OBJS)
 Net.o: Net.cpp Net.h
 	$(CC) -c Net.cpp
 
-Proj4Main.o: Proj4Main.cpp Net.h
+Proj4Main.o: Proj5Main.cpp Net.h
 	$(CC) -c Proj4Main.cpp
 
 clean:

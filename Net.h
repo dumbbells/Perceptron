@@ -3,6 +3,7 @@
 
 #include <list>
 #include <iostream>
+#include <math.h>
 
 using namespace std;
 struct Sample{
@@ -19,12 +20,14 @@ class Net{
   list <Sample> samples;
   list <Sample>::iterator lit;
   inputNode* input;
-  int numInputs;
+  inputNode dummy;
+  int numInputs, output;
   double accumulator, swing, dummyWeight;
 
   void initInput(int);
-  bool outputMatch();
-  double applySample(Sample);
+  bool outputMatch(Sample);
+  void applySample(Sample);
+  void adjustWeight(Sample);
 
 public:
   void trainNet(int);
