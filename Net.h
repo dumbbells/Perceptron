@@ -2,9 +2,9 @@
 #define NET_H_
 
 #include <list>
+#include <iostream>
 
 using namespace std;
-
 struct Sample{
   double *field;
   double classification;
@@ -18,11 +18,17 @@ struct inputNode{
 class Net{
   list <Sample> samples;
   list <Sample>::iterator lit;
-  inputNode *input;
-  double accumulator;
+  inputNode* input;
+  int numInputs;
+  double accumulator, swing, dummyWeight;
+
+  void initInput(int);
+  bool outputMatch();
+  double applySample(Sample);
 
 public:
-  Net(list<Sample>);
+  void trainNet(int);
+  Net(list<Sample>, int);
 };
 
 

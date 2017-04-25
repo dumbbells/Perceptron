@@ -1,11 +1,18 @@
-CC=g++
-DEPS = Net.h
+OBJS = Net.o Proj4Main.o
+CC = g++
+FLAGS = -Wall -g
 
-%.o: %.c $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
+Perceptron: $(OBJS)
+	$(CC) $(FLAGS) $(OBJS) -o Perceptron
 
-Perceptron: Net.o proj4Main.o
-	g++ -o $@ $^
+%.o : %.cpp
+	$(CC) -c $< -o $@
+
+Net.o: Net.cpp Net.h
+	$(CC) -c Net.cpp
+
+Proj4Main.o: Proj4Main.cpp Net.h
+	$(CC) -c Proj4Main.cpp
 
 clean:
 	rm *.o Perceptron
