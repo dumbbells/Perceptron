@@ -1,0 +1,11 @@
+
+This program creates a simple neural net without any hidden layers.
+
+The learning value is based on the amount of samples supplied in the
+training set. It's value is 1/(sample size * 2).
+
+To compile type make
+
+To run type ./Perceptron
+
+A sample input is provided in Sample.txt
